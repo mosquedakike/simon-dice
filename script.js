@@ -4,7 +4,6 @@ const violeta = document.getElementById('violeta')
 const naranja = document.getElementById('naranja')
 const verde = document.getElementById('verde')
 
-debugger
 class Juego{
     constructor(){
       this.inicializar()
@@ -13,6 +12,7 @@ class Juego{
       }
 
       inicializar(){
+        this.elegirColor = this.elegirColor.bind(this)
         btnEmpezar.classList.add('hide')
         this.nivel = 1
         this.colores = {
@@ -29,6 +29,7 @@ class Juego{
 
       siguienteNivel(){
           this.iluminarSecuencia()
+          this.agregarEventosClick()
       }
 
       transformarNumeroAColor(numero){
@@ -47,10 +48,10 @@ class Juego{
       iluminarSecuencia(){
           for(let i = 0; i < this.nivel; i++){
             const color = this.transformarNumeroAColor(this.secuencia[i])
-            console.log(color)
+            //console.log(color)
             
             setTimeout(() => {
-              console.log(color)
+              //console.log(color)
             this.iluminarColor(color)
             }, 1000 * i)
               
@@ -64,6 +65,17 @@ class Juego{
 
       apagarColor(color){
         this.colores[color].classList.remove('light')
+      }
+
+      agregarEventosClick(){
+        this.colores.celeste.addEventListener('click', this.elegirColor)
+        this.colores.violeta.addEventListener('click', this.elegirColor)
+        this.colores.naranja.addEventListener('click', this.elegirColor)
+        this.colores.verde.addEventListener('click', this.elegirColor)
+      }
+
+      elegirColor(ev){
+        console.log(this);
       }
     }
   
