@@ -16,6 +16,9 @@ class Juego{
       }
 
       inicializar(){
+        //atamos el this al metodo elegir color para usar el this del juego
+        this.elegirColor = this.elegirColor.bind(this)
+
         //ocultamos el boton de empezar al dar click con la 
         //propiedad display:none definida en el .css
         btnEmpezar.classList.add('hide')
@@ -42,6 +45,7 @@ class Juego{
 
       siguienteNivel(){
         this.asignarColor()
+        this.agregarEventosClick()
       }
 
         tranformarNumeroAColor(num){
@@ -79,6 +83,22 @@ class Juego{
         apagarColor(color){
           //removemos la clase light de las etiquetas para seguir con el juego
           this.colores[color].classList.remove('light')
+        }
+
+        agregarEventosClick(){
+          //usamos el evento click del mouse con addEventListener para cada uno de los colores
+
+          // var _this = this
+          //this.colores.celeste.addEventListener('click', this.elegirColor.bind(_this))
+          this.colores.celeste.addEventListener('click', this.elegirColor)
+          this.colores.violeta.addEventListener('click', this.elegirColor)
+          this.colores.naranja.addEventListener('click', this.elegirColor)
+          this.colores.verde.addEventListener('click', this.elegirColor)
+        }
+
+        elegirColor(ev){
+          console.log(this);
+          //console.log(ev);
         }
       }
   
