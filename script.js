@@ -122,8 +122,7 @@ class Juego{
         }
 
         elegirColor(ev){
-
-          console.log(ev);
+          //console.log(ev);
           //console.log(ev);
 
           const nombreColor = ev.target.dataset.color
