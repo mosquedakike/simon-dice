@@ -17,14 +17,15 @@ class Juego{
       }
 
       inicializar(){
+        //atamos el this al metodo siguienteNivel del juego
         this.siguienteNivel = this.siguienteNivel.bind(this)
 
-        //atamos el this al metodo elegir color para usar el this del juego
+        //atamos el this al metodo elegirColor para usar el this del juego
         this.elegirColor = this.elegirColor.bind(this)
 
         //ocultamos el boton de empezar al dar click con la 
         //propiedad display:none definida en el .css
-        btnEmpezar.classList.add('hide')
+        this.toggleBtnEmpezar()
         this.nivel = 1
         this.colores = {
             celeste,
@@ -32,6 +33,15 @@ class Juego{
             naranja,
             verde
         } 
+      }
+
+      toggleBtnEmpezar(){
+        if(btnEmpezar.classList.contains('hide')){
+          btnEmpezar.classList.remove('hide')
+        }else{
+          btnEmpezar.classList.add('hide')
+        }
+        
       }
 
       generarSecuencia(){
@@ -123,30 +133,47 @@ class Juego{
 
         elegirColor(ev){
           //console.log(ev);
-          //console.log(ev);
 
+          //obtenemos el data.set apartir del color que eliga el usuario
           const nombreColor = ev.target.dataset.color
+          //asignamos el valor del color que eliga el usuario a numerocolor 
           const numeroColor = this.tranformarColorANumero(nombreColor)
 
+          //iluminamos el color que selecciona el usuario
           this.iluminarColor(nombreColor)
 
-          //logica
+          //logica para avanzar al siguiente nivel
           if(numeroColor === this.secuencia[this.subnivel]){
             this.subnivel++
             if(this.subnivel === this.nivel){
               this.nivel++
               this.eliminarEventosClick()
               if(this.nivel === (ULTIMO_NIVEL + 1)){
-                //GANO!
+                this.ganoElJuego()
               }else{
                 setTimeout(this.siguienteNivel, 1500)
-                
               }
             }
           }else{
-            //listo perdiste
+            this.perdioElJuego()
           }
         }
+        //reiniciar juego si el usuario gano el juego
+        ganoElJuego(){
+          swal('Felicidades!', 'Ganaste el juego', 'success')
+          .then(() => {
+            this.inicializar()
+          })
+        }
+        //reiniciar juego, si el usuario perdio el juego
+        perdioElJuego(){
+          swal('Lo siento, perdiste!', 'Puedes intertar de nuevo', 'error')
+          .then(() => {
+            this.eliminarEventosClick()
+            this.inicializar()
+          })
+        }
+
       }
   
 
